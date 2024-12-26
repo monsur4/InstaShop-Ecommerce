@@ -15,9 +15,9 @@ jobs:
         image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          MYSQL_DATABASE: ecommerce_test
+          MYSQL_DATABASE: ${{ secrets.DB_NAME }}
         ports:
-          - 3306:3306
+          - ${{ secrets.DB_PORT }}:3306
         options: >-
           --health-cmd="mysqladmin ping"
           --health-interval=10s
