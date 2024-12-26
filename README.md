@@ -81,6 +81,11 @@ Once started, it will be available at: `http://localhost:8080`
 ---
 
 ## 🧪 **Testing**
+- Create test db `ecommerce_test`
+  ```bash
+  CREATE DATABASE ecommerce_test;
+  GRANT ALL PRIVILEGES ON ecommerce_test.* TO 'root'@'localhost';
+  ```
 - Run unit and integration tests across all modules.
   ```bash
   go test ./...
