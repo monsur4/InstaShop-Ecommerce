@@ -9,18 +9,37 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    
+    env:
+      DB_NAME: ${{ secrets.DB_NAME }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout
+      uses: actions/checkout@v3
+      
     - name: Set up Go
       uses: actions/setup-go@v3
       with:
         go-version: 1.23
+        
+    - name: Create .env File
+      run: |
+        echo "DB_NAME=${DB_NAME}" > .env
+        echo "DB_USER=${DB_USER}" >> .env
+        echo "DB_PASSWORD=${DB_PASSWORD}" >> .env
+        echo "SECRET_KEY=${SECRET_KEY}" >> .env
+          
     - name: Install dependencies
       run: go mod tidy
+      
     - name: Run tests
       run: go test ./... -v
+      
     - name: Test Coverage
       run: go test ./... -coverprofile=coverage.out
+      
     - name: Upload Coverage Report
       uses: codecov/codecov-action@v2
