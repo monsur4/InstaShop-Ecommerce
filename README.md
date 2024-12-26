@@ -81,9 +81,18 @@ Once started, it will be available at: `http://localhost:8080`
 ---
 
 ## 🧪 **Testing**
-- Run unit and integration tests across all modules.  
-- Generate a test coverage report.  
+- Run unit and integration tests across all modules.
+  ```bash
+  go test ./...
+  ```
+- Generate a test coverage report.
+  ```bash
+  go test ./... -cover
+  ``` 
 - View the detailed coverage report in your browser.
+  ```bash
+  go test ./... -coverprofile=coverage.out
+  ```
 
 ---
 
