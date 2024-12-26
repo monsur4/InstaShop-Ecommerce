@@ -9,25 +9,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/joho/godotenv"
 )
-
-var jwtKey []byte
-
-func init() {
-	// Load environment variables
-	err := godotenv.Load()
-	if err != nil {
-		panic("Failed to load .env file")
-	}
-
-	// Retrieve JWT Secret Key
-	jwtKey = []byte(os.Getenv("SECRET_KEY"))
-	if len(jwtKey) == 0 {
-		panic("SECRET_KEY is not set in the .env file")
-	}
-
-}
 
 type Claims struct {
     UserId uint `json:"user_id"`
@@ -47,6 +29,11 @@ func GenerateJWT(userId uint, email string, role string) (string, error) {
 		},
 	}
 
+    jwtKey := []byte(os.Getenv("SECRET_KEY"))
+    if len(jwtKey) == 0 {
+        panic("SECRET_KEY is not set in the .env file")
+    }
+
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString(jwtKey)
 }
@@ -63,6 +50,11 @@ func JWTMiddleware() gin.HandlerFunc {
 
 		tokenString := strings.TrimPrefix(authHeader, "Bearer ")
 		claims := &Claims{}
+
+        jwtKey := []byte(os.Getenv("SECRET_KEY"))
+        if len(jwtKey) == 0 {
+            panic("SECRET_KEY is not set in the .env file")
+        }
 
 		token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
 			return jwtKey, nil

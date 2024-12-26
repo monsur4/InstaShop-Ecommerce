@@ -6,17 +6,12 @@ import (
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"github.com/joho/godotenv"
 	"ecommerce-api/models"
 )
 
 var DB *gorm.DB
 
 func ConnectDatabase() {
-	err := godotenv.Load()
-	if err != nil {
-		panic("Failed to load .env file")
-	}
 
 	dsn := fmt.Sprintf(
 		"%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",

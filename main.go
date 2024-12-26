@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
     ginSwagger "github.com/swaggo/gin-swagger"
+    "github.com/joho/godotenv"
 )
 
 // @title InstaShop E-commerce API
@@ -24,6 +25,12 @@ import (
 // @in header
 // @name Authorization
 func main() {
+    // load .env file globally
+    err := godotenv.Load()
+    if err != nil {
+        panic("Failed to load .env file")
+    }
+
 	// Connect to Database
 	config.ConnectDatabase()
 	// Run AutoMigrate for all models
